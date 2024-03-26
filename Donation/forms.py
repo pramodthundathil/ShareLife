@@ -26,6 +26,6 @@ class AddOrganDonation(ModelForm):
             "doner":Select(attrs={"class":"form-control"}),
             "organ":TextInput(attrs={"class":"form-control"}),
             "Bloodgroup":Select(attrs={"class":"form-control"}),
-            "HealthPath":Textarea(attrs={"class":"form-control"}),            
+            "HealthPath":TextInput(attrs={"class":"form-control"}),            
             "Hospital":Select(attrs={"class":"form-control"}),
         }

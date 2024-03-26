@@ -21,7 +21,7 @@
         <h5 class="text-info">{{m}}</h5>
         {% endfor %}
         <br><br>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
             {% csrf_token %}
             <div class="row">
             {% for field in form %}

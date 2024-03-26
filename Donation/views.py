@@ -76,10 +76,26 @@ def DoctorSurgery(request):
     return render(request,"doctorsurgery.html",context)
 
 def DoctordonationView(request):
-    return render(request,"organdoners.html")
+    donation = OrganDonation.objects.all()
+
+    context = {
+        "donation":donation
+    }
+    return render(request,"organdoners.html",context)
 
 def OrganDonationAdd(request):
     form = AddOrganDonation()
+
+    if request.method == "POST":
+        form = AddOrganDonation(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.info(request,"Organ Addedd........")
+            return redirect("DoctordonationView")
+        else:
+            messages.info(request,"Something Wrong........")
+            return redirect("DoctordonationView")
+
 
     context = {
         "form":form
