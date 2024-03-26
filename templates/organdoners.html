@@ -1,0 +1,45 @@
+{% extends 'doctorindex.html' %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <a href="{%url 'OrganDonationAdd' %}" class="btn">Add Doners</a>
+<br><br>
+    {% for m in messages  %}
+                              
+        <h5 class="text-info">{{m}}</h5>
+        {% endfor %}
+        <br><br>
+
+        <h4>Avileableorgans</h4><br><br>
+    <table class="table">
+        <tr>
+            <th>Organ</th>
+            <th>Donar</th>
+            <th>Bloodgroup</th>
+            <th>HealthPath</th>
+            <th>Hospital</th>
+            <th>Status</th>
+        </tr>
+        {% for i in donation %}
+        <tr>
+            <td>{{i.organ}}</td>
+            <td></td>
+            <td>{{i.Bloodgroup}}</td>
+            <td>{{i.HealthPath}}</td>
+            <td>{{i.Hospital}}</td>
+            <td>
+                {% if i.availability == False %}
+                <span  class="badge bg-warning">Not Availabile</span>
+                {% else %}
+                <span class="badge bg-success">Availabile</span>
+                {% endif %} 
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+{% endblock %}
