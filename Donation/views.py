@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect 
 from django.contrib import messages
 from Home.models import DoctorProfile, UserProfile, HospitalProfile
-from .forms  import ConsultaionAdd, AddOrganDonation
+from .forms  import ConsultaionAdd, AddOrganDonation, OrganDonationRequest, SurgeyAdd
 from .models import Consutation, OrganDonation, Organrequest, Surgery
 
 # Create your views here.
@@ -55,7 +55,11 @@ def OrganDonations(request):
 
 
 def Surgeryview(request):
-    return render(request,"surgery.html")
+    surgery = Surgery.objects.filter(patient__user = request.user)
+    context = {
+        "surgery":surgery
+    }
+    return render(request,"surgery.html",context)
 
 
 def DoctorConsultaion(request):
@@ -66,20 +70,46 @@ def DoctorConsultaion(request):
     }
     return render(request,"doctorconsultaion.html",context)
 
+def ApproveConsultationrequest(request,pk):
+    consutation = Consutation.objects.get(id = pk)
+    consutation.approval = True 
+    consutation.save()
+    messages.info(request,"Request approved...")
+    return redirect("DoctorConsultaion")
+
 
 def DoctorSurgery(request):
-    surgey = Surgery.objects.filter(consultaion__doctor__user = request.user)
+    surgey = Surgery.objects.filter(organrequest__doctor__user = request.user)
 
     context = {
         "surgey":surgey
     }
     return render(request,"doctorsurgery.html",context)
 
-def DoctordonationView(request):
-    donation = OrganDonation.objects.all()
+
+def Addsurgery(request,pk):
+    organrequest = Organrequest.objects.get(id = pk)
+    form = SurgeyAdd()
+    if request.method == "POST":
+        form = SurgeyAdd(request.POST)
+        if form.is_valid():
+            surgery = form.save()
+            surgery.organrequest = organrequest
+            surgery.save()
+            return redirect()
 
     context = {
-        "donation":donation
+        "form":form
+    }
+    return render(request,"addsurgery.html",context)
+
+def DoctordonationView(request):
+    donation = OrganDonation.objects.all()
+    donationrequest = Organrequest.objects.filter(doctor = DoctorProfile.objects.get(user  = request.user))
+
+    context = {
+        "donation":donation,
+        "donationrequest":donationrequest
     }
     return render(request,"organdoners.html",context)
 
@@ -101,3 +131,30 @@ def OrganDonationAdd(request):
         "form":form
     }
     return render(request,'addorgan.html',context)
+
+
+def AddOrganRequets(request):
+    form = OrganDonationRequest()
+    user = UserProfile.objects.all()
+
+    if request.method == "POST":
+        patient_id = request.POST["patientid"]
+        profile = UserProfile.objects.get(id = str(patient_id))
+       
+        form = OrganDonationRequest(request.POST)
+        if form.is_valid():
+            organrequest = form.save()
+            organrequest.patient =  profile
+            organrequest.doctor = DoctorProfile.objects.get(user  = request.user)
+            organrequest.save()
+            messages.info(request,"Organ request Addedd........")
+            return redirect("DoctordonationView")
+        else:
+            messages.info(request,"Something Wrong........")
+            return redirect("DoctordonationView")
+
+    context = {
+        "form":form,
+        "user":user
+    }
+    return render(request,"adddonationrequest.html",context)

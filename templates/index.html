@@ -119,6 +119,8 @@
 												</ul>
 											</li>
 											<li><a href="{%url 'Doctors' %}">Doctors </a></li>
+							{% if request.user.is_authenticated %}
+
 											<li><a href="{%url 'OrganDonations' %}">Donate Organ </a></li>
 											<li><a href="#">Surgery <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
@@ -131,6 +133,7 @@
 												</ul>
 											</li>
 											<!-- <li><a href="contact.html">Contact Us</a></li> -->
+											{% endif %}
 										</ul>
 									</nav>
 								</div>

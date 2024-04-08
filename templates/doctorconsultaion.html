@@ -7,7 +7,7 @@
                               
         <h5 class="text-info">{{m}}</h5>
         {% endfor %}
-        <a href="{%url 'GetAppoinment' %}" class="btn">Get Appointment</a>
+        <!-- <a href="{%url 'GetAppoinment' %}" class="btn">Get Appointment</a> -->
         <br><br>
 
         <h4>My Appointments</h4><br><br>
@@ -28,7 +28,7 @@
             <td>
                 {% if i.approval == False %}
                 <span  class="badge bg-warning">Pending</span>
-                <a href="" class="btn btn-sm btn-success">Approve</a>
+                <a href="{%url 'ApproveConsultationrequest' i.id %}" class="btn btn-sm btn-success">Approve</a>
                 {% else %}
                 <span class="badge bg-success">Approved</span>
                

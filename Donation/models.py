@@ -34,7 +34,7 @@ class Organrequest(models.Model):
     Organ = models.ForeignKey(OrganDonation,on_delete = models.CASCADE)
     doctor = models.ForeignKey(DoctorProfile, on_delete = models.SET_NULL, null = True)
     hospitel = models.ForeignKey(HospitalProfile, on_delete = models.SET_NULL, null = True)
-    patient = models.ForeignKey(User, on_delete = models.CASCADE, null = True)
+    patient = models.ForeignKey(UserProfile, on_delete = models.CASCADE, null = True)
     request_status = models.BooleanField(default = True)
 
     def __str__(self):
@@ -42,12 +42,12 @@ class Organrequest(models.Model):
 
 
 class Surgery(models.Model):
-    consultaion = models.ForeignKey(Consutation,on_delete = models.CASCADE)
-    organrequest = models.ForeignKey(Organrequest,on_delete = models.CASCADE)
-    patient = models.ForeignKey(User, on_delete = models.CASCADE)
+    # consultaion = models.ForeignKey(Consutation,on_delete = models.CASCADE)
+    organrequest = models.ForeignKey(Organrequest,on_delete = models.CASCADE,null=True)
+    patient = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     surgery_date = models.DateField(auto_now_add = False)
     admint_date = models.DateField(auto_now_add = False)
-    surgery_status = models.BooleanField(default = False)
+    surgery_status = models.BooleanField(default = True)
     comments_doctor = models.CharField(max_length = 1000, null= True)
 
     def __str__(self):

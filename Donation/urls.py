@@ -11,6 +11,9 @@ urlpatterns = [
     path("DoctorSurgery",views.DoctorSurgery,name="DoctorSurgery"),
     path("OrganDonationAdd",views.OrganDonationAdd,name="OrganDonationAdd"),
     path("DoctordonationView",views.DoctordonationView,name="DoctordonationView"),
+    path("ApproveConsultationrequest/<int:pk>",views.ApproveConsultationrequest,name="ApproveConsultationrequest"),
+    path("AddOrganRequets",views.AddOrganRequets,name="AddOrganRequets"),
+    path("Addsurgery/<int:pk>",views.Addsurgery,name="Addsurgery"),
     
 ]       
   
