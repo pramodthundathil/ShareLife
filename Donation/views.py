@@ -158,3 +158,27 @@ def AddOrganRequets(request):
         "user":user
     }
     return render(request,"adddonationrequest.html",context)
+
+
+def ConsultationrequestsHospitels(request):
+    consultation = Consutation.objects.filter(hospitel__user = request.user )
+
+    context = {
+        "consultation":consultation
+    }
+    return render(request,"counsultaionreq.html",context)
+
+
+def SurgeryHospital(request):
+    surgey = Surgery.objects.filter(organrequest__hospitel__user = request.user)
+    context = {
+        "surgey":surgey
+    }
+    return render(request,"surgeryHospital.html",context)
+
+def OrganDonationHospital(request):
+    donation = OrganDonation.objects.all()
+    context = {
+        "donation":donation
+    }
+    return render(request,"donnershospital.html",context)

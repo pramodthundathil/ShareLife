@@ -157,3 +157,5 @@ def AdminIndex(request):
         "user":user
     }
     return render(request, 'adminindex.html',context)
+
+
