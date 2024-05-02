@@ -21,20 +21,7 @@ class UserProfile(models.Model):
         return str(self.user.first_name) + str(self.last_name)
    
 
-class DoctorProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null = True)
-    last_name = models.CharField(max_length=255)
-    Address = models.CharField(max_length=255)
-    district = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    phone = models.CharField(max_length=20)
-    Specilisation = models.CharField(max_length=255)
-    profile_pic = models.FileField(upload_to="profilepic")
-    active = models.BooleanField(default = False)
-    
 
-    def __str__(self):
-        return str(self.user.first_name) + " " + str(self.Specilisation)
     
 class HospitalProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null = True)
@@ -49,3 +36,20 @@ class HospitalProfile(models.Model):
 
     def __str__(self):
         return str(self.name) + " Hospital"
+    
+
+class DoctorProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null = True)
+    last_name = models.CharField(max_length=255)
+    Address = models.CharField(max_length=255)
+    district = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
+    Specilisation = models.CharField(max_length=255)
+    profile_pic = models.FileField(upload_to="profilepic")
+    active = models.BooleanField(default = False)
+    hospital = models.ForeignKey(HospitalProfile,on_delete=models.CASCADE,null=True, blank=True) 
+    
+
+    def __str__(self):
+        return str(self.user.first_name) + " " + str(self.Specilisation) + " " + str(self.hospital)

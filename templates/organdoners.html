@@ -50,6 +50,7 @@
             <th>Patient</th>
             <th>Hospital</th>
             <th>Status</th>
+            <th>Record</th>
             <th>Add Surgery</th>
         </tr>
         {% for i in donationrequest %}
@@ -69,7 +70,14 @@
                 {% endif %} 
 
             </td>
+            {% if i.is_healthrecord_status == False %}
+            <td>No record Available</td>
+            <td></td>
+
+            {% else %}
+            <th><a href="{{i.HealthRecord.url}}"  target="_blank" class="btn btn-dark">View Record</a></th>
             <td><a href="{%url 'Addsurgery' i.id %}" class="btn btn-info btn-sm">Add Surgery</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

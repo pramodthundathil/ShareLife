@@ -24,12 +24,6 @@
         <form method="post">
             {% csrf_token %}
             <div class="row">
-                {% for field in form %}
-                <div class="col-md-6">
-                    {{field.label}}: <br>
-                    {{field}} <br><br>
-                </div>
-                {% endfor %}
                 <div class="col-md-6">
                     Patient: <br>
                     <select name="patientid"  required>
@@ -40,6 +34,21 @@
 
                     </select> <br><br>
                 </div>
+                {% for field in form %}
+
+                <div class="col-md-6">
+                    {{field.label}}: <br>
+                    {{field}} <br><br>
+                </div>
+                {% endfor %}
+                <div class="col-md-6">
+
+                </div>
+                
+
+
+
+               
             </div>
             <button class="btn" type="submit">Add Request</button>
         </form>

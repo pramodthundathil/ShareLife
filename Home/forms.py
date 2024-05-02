@@ -25,7 +25,7 @@ class UserAddForm(UserCreationForm):
 class DoctorProfileAddForm(ModelForm):
     class Meta:
         model = DoctorProfile
-        fields = ["last_name","Specilisation","Address","district","state","phone","profile_pic"]
+        fields = ["last_name","Specilisation","Address","district","state","phone","profile_pic","hospital"]
 
         widgets = {
             "phone":TextInput(attrs={"type":"tel","pattern":"[0-9]{10,12}", "title":"Please enter the mobile number with specific country code(India : 0091xxxxxxxxxx, etc..)"}),

@@ -17,6 +17,9 @@ urlpatterns = [
     path("Addsurgery/<int:pk>",views.Addsurgery,name="Addsurgery"),
     path("SurgeryHospital",views.SurgeryHospital,name="SurgeryHospital"),
     path("OrganDonationHospital",views.OrganDonationHospital,name="OrganDonationHospital"),
+    path('getbloodgroup/<int:donor_id>/', views.getbloodgroup, name='getbloodgroup'),
+    path("UploadRecord/<int:pk>",views.UploadRecord,name="UploadRecord"),
+
     
 ]       
   

@@ -19,9 +19,10 @@ class Consutation(models.Model):
 
 class OrganDonation(models.Model):
     options = (("A+","A+"),("A-","A-"),("B+","B+"),("B-","B-"),("AB+","AB+"),("AB-","AB-"),("O+","O+"),("O-","O-"))
+    options1 = (("Kidneys","Kidneys"),("Liver","Liver"),("Lungs","Lungs"),("Heart","Heart"),("Pancreas","Pancreas"),("Intestines","Intestines"),("Hands","Hands"),("Eye","Eye"))
 
     doner = models.ForeignKey(UserProfile, on_delete = models.CASCADE, null = True)
-    organ = models.CharField(max_length = 255)
+    organ = models.CharField(max_length = 255, choices=options1)
     Bloodgroup = models.CharField(max_length=255, choices= options)
     HealthPath = models.CharField(max_length = 1000)
     Hospital = models.ForeignKey(HospitalProfile, on_delete = models.SET_NULL, null = True)
@@ -36,6 +37,8 @@ class Organrequest(models.Model):
     hospitel = models.ForeignKey(HospitalProfile, on_delete = models.SET_NULL, null = True)
     patient = models.ForeignKey(UserProfile, on_delete = models.CASCADE, null = True)
     request_status = models.BooleanField(default = True)
+    HealthRecord = models.FileField(upload_to="HealthFile",null=True, blank=True)
+    is_healthrecord_status = models.BooleanField(default=False)
 
     def __str__(self):
         return "ORGAN request by" + str(self.doctor) + " Organ " + str(self.Organ) + "Hospital " + str(self.hospitel)
@@ -49,7 +52,7 @@ class Surgery(models.Model):
     admint_date = models.DateField(auto_now_add = False)
     surgery_status = models.BooleanField(default = True)
     comments_doctor = models.CharField(max_length = 1000, null= True)
-
+    
     def __str__(self):
         return "Surgery Planed for" + str(self.patient) + " Organ " + str(self.organrequest) + "Date " + str(self.surgery_date)
 

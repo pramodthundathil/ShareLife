@@ -3,6 +3,7 @@ from django.contrib import messages
 from Home.models import DoctorProfile, UserProfile, HospitalProfile
 from .forms  import ConsultaionAdd, AddOrganDonation, OrganDonationRequest, SurgeyAdd
 from .models import Consutation, OrganDonation, Organrequest, Surgery
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -13,6 +14,7 @@ def GetAppoinment(request):
         if form.is_valid():
             consultation = form.save()
             consultation.patient = request.user
+            consultation.hospitel = consultation.doctor.hospital
             consultation.save()
             messages.info(request,"consultaion Requested.........")
             return redirect("MyAppointments")
@@ -43,7 +45,7 @@ def Doctors(request):
 
 
 def OrganDonations(request):
-    donation = OrganDonation.objects.all()
+    donation = OrganDonation.objects.filter(doner__user = request.user )
 
     context = {
         "donation":donation,
@@ -56,8 +58,10 @@ def OrganDonations(request):
 
 def Surgeryview(request):
     surgery = Surgery.objects.filter(patient__user = request.user)
+    donationrequest = Organrequest.objects.filter(Organ__doner__user = request.user)
     context = {
-        "surgery":surgery
+        "surgery":surgery,
+        "donationrequest":donationrequest
     }
     return render(request,"surgery.html",context)
 
@@ -96,7 +100,7 @@ def Addsurgery(request,pk):
             surgery = form.save()
             surgery.organrequest = organrequest
             surgery.save()
-            return redirect()
+            return redirect("Addsurgery", pk= pk)
 
     context = {
         "form":form
@@ -115,22 +119,40 @@ def DoctordonationView(request):
 
 def OrganDonationAdd(request):
     form = AddOrganDonation()
+    users = UserProfile.objects.all()
 
     if request.method == "POST":
         form = AddOrganDonation(request.POST)
+        user = request.POST.get("doner")
+        blood = request.POST.get("bloodgroup")
         if form.is_valid():
-            form.save()
+            donation = form.save()
+            donation.doner = UserProfile.objects.get(id = int(user))
+            donation.Bloodgroup =  blood
+            donation.save() 
             messages.info(request,"Organ Addedd........")
             return redirect("DoctordonationView")
         else:
-            messages.info(request,"Something Wrong........")
+            messages.info(request,"Organ not Addedd........")
             return redirect("DoctordonationView")
+       
+           
 
 
     context = {
-        "form":form
+        "form":form,
+        "users":users
     }
     return render(request,'addorgan.html',context)
+
+
+def getbloodgroup(request, donor_id):
+    try:
+        donor = UserProfile.objects.get(id=donor_id)
+        blood_group = donor.Bloodgroup  # Assuming the field name is 'blood_group', adjust it if necessary
+        return JsonResponse({'success': True, 'bloodGroup': blood_group})
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'success': False})
 
 
 def AddOrganRequets(request):
@@ -182,3 +204,14 @@ def OrganDonationHospital(request):
         "donation":donation
     }
     return render(request,"donnershospital.html",context)
+
+def UploadRecord(request,pk):
+    donerrequest = Organrequest.objects.get(id = pk)
+    if request.method == "POST":
+        record = request.FILES['record']
+        donerrequest.HealthRecord = record
+        donerrequest.is_healthrecord_status = True
+        donerrequest.save()
+        messages.info(request,"Health Record Uploaded....")
+        return redirect("Surgeryview")
+    return redirect("Surgeryview")

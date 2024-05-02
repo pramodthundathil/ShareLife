@@ -8,7 +8,7 @@ today = date.today()
 class ConsultaionAdd(ModelForm):
     class Meta:
         model = Consutation
-        fields = ["doctor","hospitel","date","time"]
+        fields = ["doctor","date","time"]
         widgets = {
             "date":TextInput(attrs={"type":"date","min":today,"class":"form-control"}),
             "time":TextInput(attrs={"type":"time","class":"form-control"}),
@@ -18,14 +18,15 @@ class ConsultaionAdd(ModelForm):
 
 
 class AddOrganDonation(ModelForm):
+
     class Meta:
         model = OrganDonation
-        fields = ["doner","organ","Bloodgroup","HealthPath","Hospital"]
+        fields = ["organ","HealthPath","Hospital"]
 
         widgets = {
-            "doner":Select(attrs={"class":"form-control"}),
-            "organ":TextInput(attrs={"class":"form-control"}),
-            "Bloodgroup":Select(attrs={"class":"form-control"}),
+            # "doner":Select(attrs={"class":"form-control"}),
+            "organ":Select(attrs={"class":"form-control"}),
+            # "Bloodgroup":Select(attrs={"class":"form-control", "id":"blood"}),
             "HealthPath":TextInput(attrs={"class":"form-control"}),            
             "Hospital":Select(attrs={"class":"form-control"}),
         }
