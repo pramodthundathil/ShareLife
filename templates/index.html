@@ -118,15 +118,23 @@
 													<li><a href="{%url 'Index' %}">Home Page 1</a></li>
 												</ul>
 											</li>
-											<li><a href="{%url 'Doctors' %}">Doctors </a></li>
+											<!-- <li><a href="{%url 'Doctors' %}">Doctors </a></li> -->
 							{% if request.user.is_authenticated %}
 
-											<li><a href="{%url 'OrganDonations' %}">Donate Organ </a></li>
 											<li><a href="#">Organ Request <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
+													<li><a href="{%url 'OrganDonations' %}">Donate Organ </a></li>
 													<li><a href="{%url 'Surgeryview' %}">View Surgery & Request</a></li>
 												</ul>
 											</li>
+
+											<li><a href="#">Blood Donation<i class="icofont-rounded-down"></i></a>
+												<ul class="dropdown">
+													<li><a href="{%url 'donate_blood' %}">Donate Blood</a></li>
+													<li><a href="{%url 'MyBloodDonationRequest' %}">My Requests</a></li>
+												</ul>
+											</li>
+
 											<li><a href="#">Appointments <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="{%url 'MyAppointments' %}">My Appointment</a></li>

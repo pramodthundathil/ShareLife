@@ -15,12 +15,47 @@ class UserProfile(models.Model):
     state = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     profile_pic = models.FileField(upload_to="profilepic")
-    user = models.OneToOneField(User,on_delete = models.CASCADE,null = True)
+    user = models.OneToOneField(User,on_delete = models.CASCADE,null = True, related_name='profile')
 
     def __str__(self):
         return str(self.user.first_name) + str(self.last_name)
    
 
+
+class Block_1(models.Model):
+    BlockIndex = models.CharField(max_length=20)
+    BlockTimeStrap = models.DateTimeField(auto_now_add=True)
+    BlockData = models.CharField(max_length=255)
+    BlockLink = models.ForeignKey(User,on_delete=models.CASCADE)
+    previous_hash = models.CharField(max_length=255)
+    Blockhash = models.CharField(max_length=255)
+    
+class Block_2(models.Model):
+    BlockIndex = models.CharField(max_length=20)
+    BlockTimeStrap = models.DateTimeField(auto_now_add=True)
+    BlockData = models.CharField(max_length=255)
+    BlockLink = models.ForeignKey(Block_1,on_delete=models.CASCADE)
+    previous_hash = models.CharField(max_length=255)
+    MedicineBlock = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    Blockhash = models.CharField(max_length=255)
+ 
+class Block_3(models.Model):
+    BlockIndex = models.CharField(max_length=20)
+    BlockTimeStrap = models.DateTimeField(auto_now_add=True)
+    BlockData = models.CharField(max_length=255)
+    BlockLink = models.ForeignKey(Block_2,on_delete=models.CASCADE)
+    MedicineBlock = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    previous_hash = models.CharField(max_length=255)
+    Blockhash = models.CharField(max_length=255)
+    
+class Block_4(models.Model):
+    BlockIndex = models.CharField(max_length=20)
+    BlockTimeStrap = models.DateTimeField(auto_now_add=True)
+    BlockData = models.CharField(max_length=255)
+    BlockLink = models.ForeignKey(Block_3,on_delete=models.CASCADE)
+    MedicineBlock = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    previous_hash = models.CharField(max_length=255)
+    Blockhash = models.CharField(max_length=255)
 
     
 class HospitalProfile(models.Model):
@@ -53,3 +88,7 @@ class DoctorProfile(models.Model):
 
     def __str__(self):
         return str(self.user.first_name) + " " + str(self.Specilisation) + " " + str(self.hospital)
+    
+
+
+    

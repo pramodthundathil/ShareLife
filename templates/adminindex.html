@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  <title>RealEstate</title>
+  <title>ShareLife</title>
   <style>
     .modal-body input {
       border: .5px solid gray !important;
@@ -30,6 +30,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="admin/">More edits</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'admin_blood' %}">Blood Donation</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Admin
@@ -41,7 +44,7 @@
           </li>
       </div>
   </nav>
-
+{% block content %}
   <div class="container mt-5">
     <h6 style="color:red;text-align:center;"> {{form.errors}}</h6>
     {% for m in messages %}
@@ -213,7 +216,7 @@
     </table>
   </div>
 
-
+{% endblock %}
 
 
 

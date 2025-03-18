@@ -1,0 +1,35 @@
+{% extends 'adminindex.html' %}
+{% block content %}
+
+
+<div class="container">
+    <h4>Blood Vault</h4>
+    {% for m in messages  %}
+                              
+    <h5 class="text-info">{{m}}</h5>
+    {% endfor %}
+<div class="dashboard">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Blood Group</th>
+                <th>Available Units</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blood in blood_vault %}
+            <tr>
+                <td>{{ blood.blood_group }}</td>
+                <td>{{ blood.total_unit }}</td>
+                <td>{{ blood.updated_on }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</div>
+
+    {% endblock %}

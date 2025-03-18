@@ -1,0 +1,47 @@
+{% extends 'adminindex.html' %}
+{% block content %}
+
+
+<div class="container">
+    <h4>Blood Receiver Request</h4>
+    {% for m in messages  %}
+                              
+    <h5 class="text-info">{{m}}</h5>
+    {% endfor %}
+<div class="dashboard">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Blood Group</th>
+                <th>Units</th>
+                <th>Donated Date</th>
+                <th>Approval</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ request.user.username }}</td>
+                <td>{{ request.requested_group }}</td>
+                <td>{{ request.unit }}</td>
+                <td>{{ request.date }}</td>
+                <td>{{ request.approval|yesno:"Approved,Pending" }}</td>
+                <td>
+                    <form method="post" action="{% url 'approve_receiver_request' request.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+    {% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'adminindex.html' %}
+{% block content %}
+
+
+<div class="dashboard">
+    <h2>Admin Dashboard</h2>
+    {% for m in messages  %}
+                              
+    <h5 class="text-info">{{m}}</h5>
+    {% endfor %}
+    <div class="stats">
+        <div class="card">
+            <div class="card-header">
+                <h3>Total Blood in Vault</h3>
+            </div>
+            <div class="card-body">
+                <p>{{ total_blood_units }} Units</p>
+                <a href="{%url 'BloodGroupsAdmin' %}" class="btn btn-outline-dark">View</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3> Donation Requests</h3>
+                
+            </div>
+            <div class="card-body">
+                <h2>Pending: {{ pending_receiver_requests }}</h2>
+                <a href="{%url 'blood_donation_requests' %}" class="btn btn-outline-dark">View</a>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3> Donator Requests</h3>
+            </div>
+            <div class="card-body">
+                <h2>Pending: {{ pending_donation_requests }}</h2>
+                <a href="{%url 'blood_receiver' %}" class="btn btn-outline-dark">View</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard {
+        padding: 20px;
+    }
+
+    .stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #f4f4f4;
+        padding: 10px;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-body {
+        padding: 15px;
+        text-align: center;
+        font-size: 16px;
+    }
+</style>
+
+{% endblock %}
