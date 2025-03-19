@@ -98,6 +98,21 @@ def admin_blood(request):
 
 def BloodGroupsAdmin(request):
     blood_vault = BloodVault.objects.all()
+    if request.method == "POST":
+        blood_group = request.POST.get("blood_group")
+        total_unit = request.POST.get("total_unit")
+        if BloodVault.objects.filter(blood_group=blood_group).exists():
+
+            blood_vault = BloodVault.objects.get(blood_group=blood_group)
+            blood_vault.total_unit += int(total_unit)
+            blood_vault.save()
+            messages.success(request, "Blood vault updated successfully.")
+            return redirect("BloodGroupsAdmin")
+        else:
+            blood_vault = BloodVault.objects.create(blood_group=blood_group, total_unit=total_unit)
+            blood_vault.save()
+            messages.success(request, "Blood vault updated successfully.")
+            return redirect("BloodGroupsAdmin")
 
     context = {
         "blood_vault":blood_vault
@@ -121,3 +136,9 @@ def MyBloodDonationRequest(request):
         return redirect("MyBloodDonationRequest")
 
     return render(request, "my_blood_requests.html", {"requests": requests})
+
+
+
+    
+    
+  

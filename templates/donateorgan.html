@@ -4,6 +4,7 @@
 
 <div class="container mt-5">
 
+
     {% for m in messages  %}
                               
         <h5 class="text-info">{{m}}</h5>
@@ -15,21 +16,23 @@
         <tr>
             <th>Organ</th>
             <th>Bloodgroup</th>
-            <th>HealthPath</th>
-            <th>Hospital</th>
+            <th>Doctor</th>
+            <th> Date </th>
+            
             <th>Status</th>
         </tr>
         {% for i in donation %}
         <tr>
             <td>{{i.organ}}</td>
             <td>{{i.Bloodgroup}}</td>
-            <td>{{i.HealthPath}}</td>
-            <td>{{i.Hospital}}</td>
+            <td>{{i.doctor}}</td>
+            <td>{{i.date}}</td>
             <td>
-                {% if i.availability == False %}
-                <span  class="badge bg-warning">Not Availabile</span>
+                {% if i.Donar_approval == False %}
+                <span  class="badge bg-warning">Not Approved</span>
+                <a href="{%url 'Approve_donar_donation_requests' i.id%}" class="btn btn-success">Approve Request</a>
                 {% else %}
-                <span class="badge bg-success">Availabile</span>
+                <span class="badge bg-success">Approved</span>
                 {% endif %} 
 
             </td>

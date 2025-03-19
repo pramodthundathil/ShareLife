@@ -1,598 +1,426 @@
 <!doctype html>
 {% load static %}
-<html class="no-js" lang="zxx">
-    <head>
-        <!-- Meta Tags -->
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="keywords" content="Site keywords here">
-		<meta name="description" content="">
-		<meta name='copyright' content=''>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-		<!-- Title -->
-        <title>ShareLife</title>
-		
-		<!-- Favicon -->
-        <link rel="icon" href="{%static 'img/favicon.png' %}">
-		
-		<!-- Google Fonts -->
-		<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShareLife</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .navbar-brand span.text-primary {
+            color: #007bff !important;
+        }
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 0;
+            position: relative;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .feature-card {
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .stats-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 0;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'Index' %}">
+                <h3><span class="text-primary">Share</span><span class="text-dark">Life</span></h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown">
+                            Home
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'Index' %}">Home Page 1</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Doctors' %}">Doctors</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'OrganDonations' %}">Donate Organ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="requestDropdown" role="button" data-bs-toggle="dropdown">
+                            Surgery
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'surgery_view_donar' %}">View Surgery</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="requestDropdown" role="button" data-bs-toggle="dropdown">
+                            Blood Donation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{%url 'donate_blood' %}">Donate Blood</a></li>
+                            <li><a class="dropdown-item" href="{%url 'MyBloodDonationRequest' %}">My Requests</a></li>
+                        </ul>
+                    </li>
 
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="{%static 'css/bootstrap.min.css' %}">
-		<!-- Nice Select CSS -->
-		<link rel="stylesheet" href="{%static 'css/nice-select.css' %}">
-		<!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="{%static 'css/font-awesome.min.css' %}">
-		<!-- icofont CSS -->
-        <link rel="stylesheet" href="{%static 'css/icofont.css' %}">
-		<!-- Slicknav -->
-		<link rel="stylesheet" href="{%static 'css/slicknav.min.css' %}">
-		<!-- Owl Carousel CSS -->
-        <link rel="stylesheet" href="{%static 'css/owl-carousel.css' %}">
-		<!-- Datepicker CSS -->
-		<link rel="stylesheet" href="{%static 'css/datepicker.css' %}">
-		<!-- Animate CSS -->
-        <link rel="stylesheet" href="{%static 'css/animate.min.css' %}">
-		<!-- Magnific Popup CSS -->
-        <link rel="stylesheet" href="{%static 'css/magnific-popup.css' %}">
-		
-		<!-- Medipro CSS -->
-        <link rel="stylesheet" href="{%static 'css/normalize.css' %}">
-        <link rel="stylesheet" href="{%static 'style.css' %}">
-        <link rel="stylesheet" href="{%static 'css/responsive.css' %}">
-		
-    </head>
-    <body>
-	
-		<!-- Preloader -->
-        <div class="preloader">
-            <div class="loader">
-                <div class="loader-outter"></div>
-                <div class="loader-inner"></div>
 
-                <div class="indicator"> 
-                    <svg width="16px" height="12px">
-                        <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
-                        <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
-                    </svg>
+                   
+                    {% endif %}
+                </ul>
+                
+                <div class="d-flex">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-phone me-1"></i>+880 1234 56789</a>
+                        </li>
+                        <li class="nav-item">
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'SignOut' %}" class="btn btn-primary">{{request.user.first_name}}/Logout</a>
+                            {% else %}
+                            <a href="{% url 'SignIn' %}" class="btn btn-primary">Register/Login</a>
+                            {% endif %}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- End Preloader -->
-		
-		<!-- Get Pro Button -->
-		
-	
-		<!-- Header Area -->
-		<header class="header" >
-			<!-- Topbar -->
-			<div class="topbar">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 col-md-5 col-12">
-							<!-- Contact -->
-							<ul class="top-link">
-								<li><a href="#">About</a></li>
-								<li><a href="#">Doctors</a></li>
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">FAQ</a></li>
-							</ul>
-							<!-- End Contact -->
-						</div>
-						<div class="col-lg-6 col-md-7 col-12">
-							<!-- Top Contact -->
-							<ul class="top-contact">
-								<li><i class="fa fa-phone"></i>+880 1234 56789</li>
-								<li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">support@yourmail.com</a></li>
-							</ul>
-							<!-- End Top Contact -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Topbar -->
-			<!-- Header Inner -->
-			<div class="header-inner">
-				<div class="container">
-					<div class="inner">
-						<div class="row">
-							<div class="col-lg-3 col-md-3 col-12">
-								<!-- Start Logo -->
-								<div class="logo">
-									<a href="{%url 'Index' %}"><h1 style="font-family:'Poppins', sans-serif;;"><span class="text-primary">Share</span><span class="text-dark">Life</span></h1></a>
-								</div>
-								<!-- End Logo -->
-								<!-- Mobile Nav -->
-								<div class="mobile-nav"></div>
-								<!-- End Mobile Nav -->
-							</div>
-							<div class="col-lg-7 col-md-9 col-12">
-								<!-- Main Menu -->
-								<div class="main-menu">
-									<nav class="navigation">
-										<ul class="nav menu">
-											<li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="{%url 'Index' %}">Home Page 1</a></li>
-												</ul>
-											</li>
-											<!-- <li><a href="{%url 'Doctors' %}">Doctors </a></li> -->
-							{% if request.user.is_authenticated %}
+    </nav>
 
-											<li><a href="#">Organ Request <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="{%url 'OrganDonations' %}">Donate Organ </a></li>
-													<li><a href="{%url 'Surgeryview' %}">View Surgery & Request</a></li>
-												</ul>
-											</li>
+    {% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section" style="background-image: url('static/img/slider2.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 mb-4">Let your <span class="text-primary">life</span> go on in someone's <span class="text-primary">body</span></h1>
+                        <p class="lead mb-4">Donate Organ</p>
+                        <a href="{% url 'GetAppoinment' %}" class="btn btn-primary btn-lg">Get Appointment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-											<li><a href="#">Blood Donation<i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="{%url 'donate_blood' %}">Donate Blood</a></li>
-													<li><a href="{%url 'MyBloodDonationRequest' %}">My Requests</a></li>
-												</ul>
-											</li>
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h4>Emergency Cases</h4>
+                        <p>Quick response for emergency organ donation and transplant cases.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Doctors Timetable</h4>
+                        <p>Check availability of our specialized organ transplant doctors.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Opening Hours</h4>
+                        <p>
+                            Monday - Friday: 8:00-20:00<br>
+                            Saturday: 9:00-18:30<br>
+                            Sunday: 9:00-15:00
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-											<li><a href="#">Appointments <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="{%url 'MyAppointments' %}">My Appointment</a></li>
-												</ul>
-											</li>
-											<!-- <li><a href="contact.html">Contact Us</a></li> -->
-											{% endif %}
-										</ul>
-									</nav>
-								</div>
-								<!--/ End Main Menu -->
-							</div>
-							{% if request.user.is_authenticated %}
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-									<a href="{%url 'SignOut' %}" class="btn">{{request.user.first_name}}/Logout</a>
-								</div>
-							</div>
-							{% else %}
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-									<a href="{%url 'SignIn' %}" class="btn">Register/Login</a>
-								</div>
-							</div>
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--/ End Header Inner -->
-		</header>
-		<!-- End Header Area -->
-		{% block content%}
-		<!-- Slider Area -->
-		<section class="slider">
-			<div class="hero-slider">
-				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('static/img/slider2.jpg')">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-7">
-								<div class="text">
-									<h1>Let your <span>life</span>  go on in someone's <span>body</span></h1>
-									<p>Donate Organ </p>
-									<div class="button">
-										<a href="{%url 'GetAppoinment' %}" class="btn">Get Appointment</a>
-										<!-- <a href="#" class="btn primary">Learn More</a> -->
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- End Single Slider -->
-				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('static/img/slider.jpg')">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-7">
-								<div class="text">
-									<h1>Let your <span>life</span>  go on in someone's <span>body</span></h1>
-									<p>Donate Organ </p>
-									<div class="button">
-										<a href="{%url 'GetAppoinment' %}" class="btn">Get Appointment</a>
+    <!-- Services Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Are Always Ready to Help You & Your Family</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our team of specialists is dedicated to providing the best care for organ donors and recipients.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-ambulance fa-3x text-primary"></i>
+                        </div>
+                        <h4>Emergency Help</h4>
+                        <p class="text-muted">24/7 emergency response for critical organ donation cases.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-pills fa-3x text-primary"></i>
+                        </div>
+                        <h4>Enriched Pharmacy</h4>
+                        <p class="text-muted">Complete range of medications for pre and post-transplant care.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-stethoscope fa-3x text-primary"></i>
+                        </div>
+                        <h4>Medical Treatment</h4>
+                        <p class="text-muted">State-of-the-art facilities for organ transplant procedures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Start End Slider -->
-				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('static/img/slider3.jpg')">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-7">
-								<div class="text">
-									<h1>Let your <span>life</span>  go on in someone's <span>body</span></h1>
-									<p>Donate Organ </p>
-									<div class="button">
-										<a href="{%url 'GetAppoinment' %}" class="btn">Get Appointment</a>
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">3468</div>
+                        <p>Hospital Rooms</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">557</div>
+                        <p>Specialist Doctors</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">4379</div>
+                        <p>Happy Patients</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">32</div>
+                        <p>Years of Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- End Single Slider -->
-			</div>
-		</section>
-		<!--/ End Slider Area -->
-		
-		<!-- Start Schedule Area -->
-		<section class="schedule">
-			<div class="container">
-				<div class="schedule-inner">
-					<div class="row">
-						<div class="col-lg-4 col-md-6 col-12 ">
-							<!-- single-schedule -->
-							<div class="single-schedule first">
-								<div class="inner">
-									<div class="icon">
-										<i class="fa fa-ambulance"></i>
-									</div>
-									<div class="single-content">
-										<span>Lorem Amet</span>
-										<h4>Emergency Cases</h4>
-										<p>Lorem ipsum sit amet consectetur adipiscing elit. Vivamus et erat in lacus convallis sodales.</p>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-6 col-12">
-							<!-- single-schedule -->
-							<div class="single-schedule middle">
-								<div class="inner">
-									<div class="icon">
-										<i class="icofont-prescription"></i>
-									</div>
-									<div class="single-content">
-										<span>Fusce Porttitor</span>
-										<h4>Doctors Timetable</h4>
-										<p>Lorem ipsum sit amet consectetur adipiscing elit. Vivamus et erat in lacus convallis sodales.</p>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-12 col-12">
-							<!-- single-schedule -->
-							<div class="single-schedule last">
-								<div class="inner">
-									<div class="icon">
-										<i class="icofont-ui-clock"></i>
-									</div>
-									<div class="single-content">
-										<span>Donec luctus</span>
-										<h4>Opening Hours</h4>
-										<ul class="time-sidual">
-											<li class="day">Monday - Fridayp <span>8.00-20.00</span></li>
-											<li class="day">Saturday <span>9.00-18.30</span></li>
-											<li class="day">Monday - Thusday <span>9.00-15.00</span></li>
-										</ul>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/End Start schedule Area -->
+    <!-- About Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Offer Different Services To Improve Your Health</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our comprehensive organ donation and transplant services are designed to save lives.</p>
+            </div>
+            
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Who We Are</h3>
+                    <p>ShareLife is a leading organ donation and transplant center dedicated to saving lives through cutting-edge medical care and compassionate support for donors and recipients.</p>
+                    <p>Our team of specialists ensures seamless care throughout the donation and transplant journey.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Expert transplant surgeons</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>24/7 donor support</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Advanced matching technology</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Post-transplant care</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Family counseling</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Donor registry services</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded shadow position-relative" style="padding-top: 56.25%;">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-light rounded d-flex align-items-center justify-content-center">
+                            <i class="fas fa-play-circle fa-4x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-		<!-- Start Feautes -->
-		<section class="Feautes section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>We Are Always Ready to Help You & Your Family</h2>
-							<img src="{%static 'img/section-img.png' %}" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-4 col-12">
-						<!-- Start Single features -->
-						<div class="single-features">
-							<div class="signle-icon">
-								<i class="icofont icofont-ambulance-cross"></i>
-							</div>
-							<h3>Emergency Help</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
-						</div>
-						<!-- End Single features -->
-					</div>
-					<div class="col-lg-4 col-12">
-						<!-- Start Single features -->
-						<div class="single-features">
-							<div class="signle-icon">
-								<i class="icofont icofont-medical-sign-alt"></i>
-							</div>
-							<h3>Enriched Pharmecy</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
-						</div>
-						<!-- End Single features -->
-					</div>
-					<div class="col-lg-4 col-12">
-						<!-- Start Single features -->
-						<div class="single-features last">
-							<div class="signle-icon">
-								<i class="icofont icofont-stethoscope"></i>
-							</div>
-							<h3>Medical Treatment</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
-						</div>
-						<!-- End Single features -->
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Feautes -->
-		
-		<!-- Start Fun-facts -->
-		<div id="fun-facts" class="fun-facts section overlay">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-3 col-md-6 col-12">
-						<!-- Start Single Fun -->
-						<div class="single-fun">
-							<i class="icofont icofont-home"></i>
-							<div class="content">
-								<span class="counter">3468</span>
-								<p>Hospital Rooms</p>
-							</div>
-						</div>
-						<!-- End Single Fun -->
-					</div>
-					<div class="col-lg-3 col-md-6 col-12">
-						<!-- Start Single Fun -->
-						<div class="single-fun">
-							<i class="icofont icofont-user-alt-3"></i>
-							<div class="content">
-								<span class="counter">557</span>
-								<p>Specialist Doctors</p>
-							</div>
-						</div>
-						<!-- End Single Fun -->
-					</div>
-					<div class="col-lg-3 col-md-6 col-12">
-						<!-- Start Single Fun -->
-						<div class="single-fun">
-							<i class="icofont-simple-smile"></i>
-							<div class="content">
-								<span class="counter">4379</span>
-								<p>Happy Patients</p>
-							</div>
-						</div>
-						<!-- End Single Fun -->
-					</div>
-					<div class="col-lg-3 col-md-6 col-12">
-						<!-- Start Single Fun -->
-						<div class="single-fun">
-							<i class="icofont icofont-table"></i>
-							<div class="content">
-								<span class="counter">32</span>
-								<p>Years of Experience</p>
-							</div>
-						</div>
-						<!-- End Single Fun -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--/ End Fun-facts -->
-		
-		<!-- Start Why choose -->
-		<section class="why-choose section" >
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>We Offer Different Services To Improve Your Health</h2>
-							<img src="{%static 'img/section-img.png' %}" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-6 col-12">
-						<!-- Start Choose Left -->
-						<div class="choose-left">
-							<h3>Who We Are</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra antege vel est lobortis, a commodo magna rhoncus. In quis nisi non emet quam pharetra commodo. </p>
-							<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
-							<div class="row">
-								<div class="col-lg-6">
-									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
-									</ul>
-								</div>
-								<div class="col-lg-6">
-									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!-- End Choose Left -->
-					</div>
-					<div class="col-lg-6 col-12">
-						<!-- Start Choose Rights -->
-						<div class="choose-right">
-							<div class="video-image">
-								<!-- Video Animation -->
-								<div class="promo-video">
-									<div class="waves-block">
-										<div class="waves wave-1"></div>
-										<div class="waves wave-2"></div>
-										<div class="waves wave-3"></div>
-									</div>
-								</div>
-								<!--/ End Video Animation -->
-								<!-- <a href="https://www.youtube.com/watch?v=RFVXy6CRVR4" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a> -->
-							</div>
-						</div>
-						<!-- End Choose Rights -->
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Why choose -->
-		
-		<!-- Start Call to action -->
-		<section class="call-action overlay" data-stellar-background-ratio="0.5">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-12">
-						<div class="content">
-							<h2>Do you need Emergency Medical Care? Call @ 1234 56789</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor dictum turpis nec gravida.</p>
-							<div class="button">
-								<a href="#" class="btn">Contact Now</a>
-								<a href="#" class="btn second">Learn More<i class="fa fa-long-arrow-right"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Call to action -->
-		
-		<!-- Start portfolio -->
-		<section class="portfolio section" >
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>We Maintain Cleanliness Rules Inside Our Hospital</h2>
-							<img src="{%static 'img/section-img.png' %}" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12 col-12">
-						<div class="owl-carousel portfolio-slider">
-							<div class="single-pf">
-								<img src="{%static 'img/pf1.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf2.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf3.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf4.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf1.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="img/pf2.jpg" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf3.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-							<div class="single-pf">
-								<img src="{%static 'img/pf4.jpg' %}" alt="#">
-								<a href="portfolio-details.html" class="btn">View Details</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End portfolio -->
-	
-		
-	{% endblock %}
-		
-		<!-- Footer Area -->
-		<footer id="footer" class="footer ">
-			
-			<!-- Copyright -->
-			<div class="copyright">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-12">
-							<div class="copyright-content">
-								<p>© Copyright 2024  |  All Rights Reserved by <a href="" target="_blank">SharLife</a> </p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--/ End Copyright -->
-		</footer>
-		<!--/ End Footer Area -->
-		
-		<!-- jquery Min JS -->
-        <script src="{%static 'js/jquery.min.js' %}"></script>
-		<!-- jquery Migrate JS -->
-		<script src="{%static 'js/jquery-migrate-3.0.0.js' %}"></script>
-		<!-- jquery Ui JS -->
-		<script src="{%static 'js/jquery-ui.min.js' %}"></script>
-		<!-- Easing JS -->
-        <script src="{%static 'js/easing.js' %}"></script>
-		<!-- Color JS -->
-		<script src="{%static 'js/colors.js' %}"></script>
-		<!-- Popper JS -->
-		<script src="{%static 'js/popper.min.js' %}"></script>
-		<!-- Bootstrap Datepicker JS -->
-		<script src="{%static 'js/bootstrap-datepicker.js' %}"></script>
-		<!-- Jquery Nav JS -->
-        <script src="{%static 'js/jquery.nav.js' %}"></script>
-		<!-- Slicknav JS -->
-		<script src="{%static 'js/slicknav.min.js' %}"></script>
-		<!-- ScrollUp JS -->
-        <script src="{%static 'js/jquery.scrollUp.min.js' %}"></script>
-		<!-- Niceselect JS -->
-		<script src="{%static 'js/niceselect.js' %}"></script>
-		<!-- Tilt Jquery JS -->
-		<script src="{%static 'js/tilt.jquery.min.js' %}"></script>
-		<!-- Owl Carousel JS -->
-        <script src="{%static 'js/owl-carousel.js' %}"></script>
-		<!-- counterup JS -->
-		<script src="{%static 'js/jquery.counterup.min.js' %}"></script>
-		<!-- Steller JS -->
-		<script src="{%static 'js/steller.js' %}"></script>
-		<!-- Wow JS -->
-		<script src="{%static 'js/wow.min.js' %}"></script>
-		<!-- Magnific Popup JS -->
-		<script src="{%static 'js/jquery.magnific-popup.min.js' %}"></script>
-		<!-- Counter Up CDN JS -->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-		<!-- Bootstrap JS -->
-		<script src="{%static 'js/bootstrap.min.js' %}"></script>
-		<!-- Main JS -->
-		<script src="{%static 'js/main.js' %}"></script>
-    </body>
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="mb-3">Do you need Emergency Medical Care? Call @ 1234 56789</h2>
+                    <p>Our emergency response team is available 24/7 for urgent organ donation and transplant cases.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <a href="#" class="btn btn-light me-2">Contact Now</a>
+                    <a href="#" class="btn btn-outline-light">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-5">
+        <div class="container mb-5">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Maintain Cleanliness Rules Inside Our Hospital</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our state-of-the-art facilities ensure the highest standards of cleanliness and safety.</p>
+            </div>
+        </div>
+        
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf1.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf2.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf3.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf4.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="py-4 bg-light" style="position: fixed; width: 100%;bottom: 0; margin-top: 100px;">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">© Copyright 2024 | All Rights Reserved by <a href="#" class="text-decoration-none">ShareLife</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Initialize any additional scripts here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Counter animation
+            const counters = document.querySelectorAll('.number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                counter.setAttribute('data-target', counter.innerText);
+                counter.innerText = '0';
+                
+                updateCount();
+            });
+        });
+    </script>
+</body>
 </html>

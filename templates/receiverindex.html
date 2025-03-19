@@ -1,0 +1,437 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShareLife</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .navbar-brand span.text-primary {
+            color: #007bff !important;
+        }
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 0;
+            position: relative;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .feature-card {
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .stats-section {
+            background: #007bff;
+            color: white;
+            padding: 60px 0;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'Index' %}">
+                <h3><span class="text-primary">Share</span><span class="text-dark">Life</span></h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown">
+                            Home
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'Index' %}">Home Page 1</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Doctors' %}">Doctors</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'OrgandonationRequests' %}">Organ Receive Request</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'surgery_view_receiver' %}">Surgeries</a>
+                    </li>
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="requestDropdown" role="button" data-bs-toggle="dropdown">
+                            Organ Request
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'Surgeryview' %}">View Surgery & Request</a></li>
+                        </ul>
+                    </li> -->
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="requestDropdown" role="button" data-bs-toggle="dropdown">
+                            Blood Donation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{%url 'donate_blood' %}">Donate Blood</a></li>
+                            <li><a class="dropdown-item" href="{%url 'MyBloodDonationRequest' %}">My Requests</a></li>
+                        </ul>
+                    </li> -->
+
+
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="appointmentDropdown" role="button" data-bs-toggle="dropdown">
+                            Appointments
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'MyAppointments' %}">My Appointment</a></li>
+                        </ul>
+                    </li> -->
+                    {% endif %}
+                </ul>
+                
+                <div class="d-flex">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-phone me-1"></i>+880 1234 56789</a>
+                        </li>
+                        <li class="nav-item">
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'SignOut' %}" class="btn btn-primary">{{request.user.first_name}}/Logout</a>
+                            {% else %}
+                            <a href="{% url 'SignIn' %}" class="btn btn-primary">Register/Login</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section" style="background-image: url('static/img/slider2.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 mb-4">Let your <span class="text-primary">life</span> go on in someone's <span class="text-primary">body</span></h1>
+                        <p class="lead mb-4">Donate Organ</p>
+                        <!-- <a href="{% url 'GetAppoinment' %}" class="btn btn-primary btn-lg">Get Appointment</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h4>Emergency Cases</h4>
+                        <p>Quick response for emergency organ donation and transplant cases.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Doctors Timetable</h4>
+                        <p>Check availability of our specialized organ transplant doctors.</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card bg-light">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Opening Hours</h4>
+                        <p>
+                            Monday - Friday: 8:00-20:00<br>
+                            Saturday: 9:00-18:30<br>
+                            Sunday: 9:00-15:00
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Are Always Ready to Help You & Your Family</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our team of specialists is dedicated to providing the best care for organ donors and recipients.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-ambulance fa-3x text-primary"></i>
+                        </div>
+                        <h4>Emergency Help</h4>
+                        <p class="text-muted">24/7 emergency response for critical organ donation cases.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-pills fa-3x text-primary"></i>
+                        </div>
+                        <h4>Enriched Pharmacy</h4>
+                        <p class="text-muted">Complete range of medications for pre and post-transplant care.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-stethoscope fa-3x text-primary"></i>
+                        </div>
+                        <h4>Medical Treatment</h4>
+                        <p class="text-muted">State-of-the-art facilities for organ transplant procedures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">3468</div>
+                        <p>Hospital Rooms</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">557</div>
+                        <p>Specialist Doctors</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">4379</div>
+                        <p>Happy Patients</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="number">32</div>
+                        <p>Years of Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Offer Different Services To Improve Your Health</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our comprehensive organ donation and transplant services are designed to save lives.</p>
+            </div>
+            
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Who We Are</h3>
+                    <p>ShareLife is a leading organ donation and transplant center dedicated to saving lives through cutting-edge medical care and compassionate support for donors and recipients.</p>
+                    <p>Our team of specialists ensures seamless care throughout the donation and transplant journey.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Expert transplant surgeons</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>24/7 donor support</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Advanced matching technology</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Post-transplant care</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Family counseling</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Donor registry services</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded shadow position-relative" style="padding-top: 56.25%;">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-light rounded d-flex align-items-center justify-content-center">
+                            <i class="fas fa-play-circle fa-4x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="mb-3">Do you need Emergency Medical Care? Call @ 1234 56789</h2>
+                    <p>Our emergency response team is available 24/7 for urgent organ donation and transplant cases.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <a href="#" class="btn btn-light me-2">Contact Now</a>
+                    <a href="#" class="btn btn-outline-light">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-5">
+        <div class="container mb-5">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">We Maintain Cleanliness Rules Inside Our Hospital</h2>
+                <div class="divider mx-auto mb-3" style="width: 50px; height: 3px; background-color: #007bff;"></div>
+                <p class="text-muted">Our state-of-the-art facilities ensure the highest standards of cleanliness and safety.</p>
+            </div>
+        </div>
+        
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf1.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf2.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf3.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="position-relative overflow-hidden" style="height: 300px;">
+                        <img src="{% static 'img/pf4.jpg' %}" class="w-100 h-100 object-fit-cover" alt="Hospital">
+                        <div class="position-absolute top-0 left-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center opacity-0 transition-opacity" style="transition: 0.3s;">
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="py-4 bg-light" style="position: fixed; width: 100%;bottom: 0; margin-top: 100px;">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">© Copyright 2024 | All Rights Reserved by <a href="#" class="text-decoration-none">ShareLife</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Initialize any additional scripts here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Counter animation
+            const counters = document.querySelectorAll('.number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                counter.setAttribute('data-target', counter.innerText);
+                counter.innerText = '0';
+                
+                updateCount();
+            });
+        });
+    </script>
+</body>
+</html>

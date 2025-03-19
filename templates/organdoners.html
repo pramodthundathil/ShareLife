@@ -3,85 +3,55 @@
 
 
 <div class="container mt-5">
-    <a href="{%url 'OrganDonationAdd' %}" class="btn">Add Doners</a>
-    <a href="{%url 'AddOrganRequets' %}" class="btn">Add Organ Request</a>
-<br><br>
-    {% for m in messages  %}
-                              
-        <h5 class="text-info">{{m}}</h5>
-        {% endfor %}
-        <br><br>
 
-        <h4>Available Organs</h4><br><br>
-    <table class="table">
-        <tr>
-            <th>Organ</th>
-            <th>Donar</th>
-            <th>Bloodgroup</th>
-            <th>HealthPath</th>
-            <th>Hospital</th>
-            <th>Status</th>
-        </tr>
-        {% for i in donation %}
-        <tr>
-            <td>{{i.organ}}</td>
-            <td>{{i.doner}}</td>
-            <td>{{i.Bloodgroup}}</td>
-            <td>{{i.HealthPath}}</td>
-            <td>{{i.Hospital}}</td>
-            <td>
-                {% if i.availability == False %}
-                <span  class="badge bg-warning">Not Availabile</span>
-                {% else %}
-                <span class="badge bg-success">Availabile</span>
-                {% endif %} 
+    <br><br>
 
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="content">
+        <h5>Donar Pending Approval</h5>
+        <br>
+        <a href="{% url 'DoctordonationView_approved' %}" class="btn btn-sm btn-primary">View Approved Donars </a>
 
+        <table class="table table-bordered table-striped mt-5">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th> Blood Group </th>
+                    <th>Address</th>
+                    <th> Medical Records</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donar in donars %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ donar.first_name}}</td>
+                    <td> {{ donar.email}}</td>
+                    <td>{{donar.profile.phone}}</td>
+                    <th>{{ donar.profile.Bloodgroup}}</th>
+                    <td> {{donar.profile.district}} {{donar.profile.Address}}</td>
+                    <th><a href="{{donar.profile.medical_doc.url}}" target="_blank" download class="btn btn-info">Medical Record</a></th>
+                    <td>
+                        {% if donar.is_active == False %}
+                        <span class="badge bg-warning">Pending</span>
 
-    <h4>Organs Requests</h4><br><br>
-    <table class="table">
-        <tr>
-            <th>Organ</th>
-            <th>Bloodgroup</th>
-            <th>Patient</th>
-            <th>Hospital</th>
-            <th>Status</th>
-            <th>Record</th>
-            <th>Add Surgery</th>
-        </tr>
-        {% for i in donationrequest %}
-        <tr>
-            <td>{{i}}</td>
-            
-            <td>{{i.patient.Bloodgroup}}</td>
-            <td>{{i.patient}}</td>
+                        <a href="{% url 'DonarApprove' donar.id %}" class="btn btn-success">Approve</a>
+                        <a href="{% url 'DonarReject' donar.id %}" class="btn btn-danger">Reject</a>
+                        {% else %}
+                        <span class="badge bg-success">Approved</span>
 
-            <td>{{i.Organ.Hospital}}</td>
-           
-            <td>
-                {% if i.request_status == False %}
-                <span  class="badge bg-warning">Not Availabile</span>
-                {% else %}
-                <span class="badge bg-success">Availabile</span>
-                {% endif %} 
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
 
-            </td>
-            {% if i.is_healthrecord_status == False %}
-            <td>No record Available</td>
-            <td></td>
+            </tbody>
+        </table>
+    </div>
 
-            {% else %}
-            <th><a href="{{i.HealthRecord.url}}"  target="_blank" class="btn btn-dark">View Record</a></th>
-            <td><a href="{%url 'Addsurgery' i.id %}" class="btn btn-info btn-sm">Add Surgery</a></td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
 </div>
-
 
 {% endblock %}

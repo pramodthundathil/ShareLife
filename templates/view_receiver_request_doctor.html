@@ -1,0 +1,166 @@
+{% extends 'receiverindex.html' %}
+{% block content %}
+<div class="container mt-5">
+  <!-- Button trigger modal -->
+
+
+
+  <hr>
+  <h5> Receiver Requests</h5>
+  {% for m in messages %}
+
+<h5 class="text-info">{{m}}</h5>
+{% endfor %}
+
+  <table class="table table-bordered mt-3">
+
+    <tbody>
+      <tr>
+        <th>Organ</th>
+        <td>{{ request.organ }}</td>
+      </tr>
+      <tr>
+        <th>Doctor</th>
+        <td>{{ request.doctor }}</td>
+
+      </tr>
+
+      <tr>
+        <th>Donor</th>
+        <td>
+          {{ request.Donar }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          {{request.Donar_approval|yesno:"Approved,Not Approved"}}
+
+        </td>
+
+      </tr>
+      <tr>
+        <th>Donor Blood Group</th>
+        <td>{{ request.Bloodgroup }}</td>
+      </tr>
+      <tr>
+        <th>Patient</th>
+        <td>{{ request.patient }}</td>
+      </tr>
+      <tr>
+        <th>Request Status</th>
+        <td>{{ request.request_status|yesno:"Active,Inactive" }}</td>
+      </tr>
+      <tr>
+
+      </tr>
+      <th>Health Record</th>
+      <td>
+        {% if request.HealthRecord %}
+        <a href="{{ request.HealthRecord.url }}" download>Download</a>
+        {% else %}
+        No File
+        {% endif %}
+      </td>
+      </tr>
+      <tr>
+        <th>Approval Status</th>
+        <td>{{ request.approval_status|yesno:"Approved,Not Approved" }}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{ request.status }}</td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+  <a href="{% url 'organ_approve' request.id %}" class="btn btn-success btn-sm mt-3">Approve</a>
+  <a href="{% url 'reject_request' request.id %}" class="btn btn-danger btn-sm mt-3">Reject</a>
+  <a  data-bs-toggle="modal" data-bs-target="#Surgery" class="btn btn-warning btn-sm mt-3">Assign Surgery</a>
+  <a  class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+   Assign Donar
+  </a>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assign Donar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'assign_donar' request.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+               <select name="donar" class="form-control" id="">
+                <option value="" selected disabled>---------------</option>
+                {% for donar in donars %}
+                
+                <option value="{{donar.id}}">{{donar}}</option>
+
+                {% endfor %}
+               </select>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- models 2 -->
+
+  <div class="modal fade" id="Surgery" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assign Surgery</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'assign_surgery' request.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="admit_date" class="form-label">Admit Date</label>
+                  <input type="date" name="admit_date" class="form-control" id="admit_date" required>
+                </div>
+                <div class="mb-3">
+                  <label for="surgery_date" class="form-label">Surgery Date</label>
+                  <input type="date" name="surgery_date" class="form-control" id="surgery_date" required>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="comments_doctor" class="form-label">Doctor's Comments</label>
+                  <textarea name="comments_doctor" class="form-control" id="comments_doctor" rows="3"></textarea>
+                </div>
+
+                <script>
+                  const admitDateInput = document.getElementById('admit_date');
+                  const surgeryDateInput = document.getElementById('surgery_date');
+
+                  // Set minimum date for admit date to today
+                  const today = new Date().toISOString().split('T')[0];
+                  admitDateInput.setAttribute('min', today);
+
+                  // Ensure surgery date is after admit date
+                  admitDateInput.addEventListener('change', () => {
+                    const admitDate = admitDateInput.value;
+                    surgeryDateInput.setAttribute('min', admitDate);
+                  });
+                </script>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}

@@ -13,6 +13,10 @@ urlpatterns = [
     path("AdminIndex",views.AdminIndex,name="AdminIndex"),
     path("ApproveDoctor/<int:pk>",views.ApproveDoctor,name="ApproveDoctor"),
     path("ApproveHospital/<int:pk>",views.ApproveHospital,name="ApproveHospital"),
+    path("ReceiverIndex",views.ReceiverIndex,name="ReceiverIndex"),
+    path("ReceiverSignUp",views.ReceiverSignUp,name="ReceiverSignUp"),
+    path("DonarApprove/<int:pk>", views.DonarApprove, name="DonarApprove"),
+    path("DonarReject/<int:pk>", views.DonarReject, name="DonarReject"),
    
 ]       
   

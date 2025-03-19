@@ -1,0 +1,77 @@
+{% extends 'receiverindex.html' %}
+{% block content %}
+<div class="container mt-5">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Add Organ Receive Request
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Organ Requests</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <hr>
+<h5>  My Requests</h5>
+{% for m in messages %}
+
+<h5 class="text-info">{{m}}</h5>
+{% endfor %}
+<br><br>
+
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Organ</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Patient</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Approval Status</th>
+            <th scope="col">Status</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in r_requests %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ request.organ }}</td>
+            <td>{{ request.doctor }}</td>
+            <td>{{ request.patient }}</td>
+            <td>{{ request.request_status|yesno:"Active,Inactive" }}</td>
+            <td>{{ request.approval_status|yesno:"Approved,Not Approved" }}</td>
+            <td>{{ request.status }}</td>
+           
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="text-center">No requests found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+{% endblock %}

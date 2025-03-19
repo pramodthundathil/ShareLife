@@ -1,0 +1,58 @@
+{% extends 'doctorindex.html' %}
+{% block content %}
+
+
+<div class="container mt-5">
+
+    <br><br>
+
+    <div class="content">
+        <h5>Approved Donar</h5>
+        <br>
+        <a href="{% url 'DoctordonationView' %}" class="btn btn-sm btn-primary">View Pending Donars </a>
+
+        <br>
+        <table class="table table-bordered table-striped mt-5">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th> Blood Group </th>
+                    <th>Address</th>
+                    <th> Medical Records</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donar in donars %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ donar.first_name}}</td>
+                    <td> {{ donar.email}}</td>
+                    <td>{{donar.profile.phone}}</td>
+                    <th>{{ donar.profile.Bloodgroup}}</th>
+                    <td> {{donar.profile.district}} {{donar.profile.Address}}</td>
+                    <th><a href="{{donar.profile.medical_doc.url}}" target="_blank" download class="btn btn-info">Medical Record</a></th>
+                    <td>
+                        {% if donar.is_active == False %}
+                        <span class="badge bg-warning">Pending</span>
+
+                        <a href="{% url 'DonarApprove' donar.id %}" class="btn btn-success">Approve</a>
+                        <a href="{% url 'DonarReject' donar.id %}" class="btn btn-danger">Reject</a>
+                        {% else %}
+                        <span class="badge bg-success">Approved</span>
+
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

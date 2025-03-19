@@ -1,0 +1,65 @@
+{% extends 'receiverindex.html' %}
+{% block content %}
+<div class="container mt-5">
+<!-- Button trigger modal -->
+
+
+
+  <hr>
+<h5>  Receiver Requests</h5>
+{% for m in messages %}
+
+<h5 class="text-info">{{m}}</h5>
+{% endfor %}
+<br><br>
+
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Organ</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Patient</th>
+            <th>Medical Document</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Approval Status</th>
+            <th scope="col">Status</th>
+            <th>Action</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in r_requests %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ request.organ }}</td>
+            <td>{{ request.doctor }}</td>
+            <td>{{ request.patient }}</td>
+          
+            <th>
+                {% if request.HealthRecord %}
+                <a href="{{request.HealthRecord.url}}" target="_blank">Download</a>
+                {% else%}
+                <span class="text-danger">No Document</span>
+                {% endif %}
+            </th>
+            <td>{{ request.request_status|yesno:"Active,Inactive" }}</td>
+            <td>{{ request.approval_status|yesno:"Approved,Not Approved" }}</td>
+            <td>{{ request.status }}</td>
+            <td>
+                
+                <a href="{% url 'view_receiver_request_doctor' request.id %}" class="btn btn-outline-dark btn-sm mt-3">View </a>
+            </td>
+           
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="text-center">No requests found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+{% endblock %}

@@ -48,6 +48,9 @@ def admin_only(view_func):
         
         if group == "admin":
             return redirect("AdminIndex")
+        
+        if group == "receiver":
+            return redirect("ReceiverIndex")
               
     return wrapper_function
 

@@ -5,13 +5,13 @@
         <!-- Meta Tags -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="keywords" content="Site keywords here">
-		<meta name="description" content="">
+		<meta name="keywords" content="Doctor Dashboard, ShareLife, Medical Platform">
+		<meta name="description" content="ShareLife Doctor Dashboard - Manage your appointments, surgeries, and organ donor requests">
 		<meta name='copyright' content=''>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
 		<!-- Title -->
-        <title>ShareLife</title>
+        <title>ShareLife - Doctor Dashboard</title>
 		
 		<!-- Favicon -->
         <link rel="icon" href="{%static 'img/favicon.png' %}">
@@ -42,12 +42,260 @@
         <link rel="stylesheet" href="{%static 'css/normalize.css' %}">
         <link rel="stylesheet" href="{%static 'style.css' %}">
         <link rel="stylesheet" href="{%static 'css/responsive.css' %}">
-		
+
+        <style>
+            .dashboard-stats {
+                padding: 30px 0;
+            }
+            .stat-card {
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.08);
+                padding: 25px;
+                margin-bottom: 25px;
+                transition: all 0.3s ease;
+                border-left: 5px solid #1A76D1;
+            }
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+            }
+            .stat-card .stat-icon {
+                font-size: 40px;
+                color: #1A76D1;
+                margin-bottom: 15px;
+            }
+            .stat-card .stat-value {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 5px;
+                color: #333;
+            }
+            .stat-card .stat-label {
+                color: #777;
+                font-size: 16px;
+            }
+            .quick-actions {
+                padding: 20px 0;
+            }
+            .action-card {
+                padding: 22px;
+                background: #f9f9f9;
+                border-radius: 8px;
+                text-align: center;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+                border: 1px solid #eee;
+            }
+            .action-card:hover {
+                background: #1A76D1;
+                color: #fff;
+            }
+            .action-card:hover .action-icon,
+            .action-card:hover .action-title {
+                color: #fff;
+            }
+            .action-card .action-icon {
+                font-size: 32px;
+                color: #1A76D1;
+                margin-bottom: 10px;
+            }
+            .action-card .action-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+            }
+            .recent-section {
+                padding: 30px 0;
+            }
+            .section-title {
+                margin-bottom: 20px;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            .section-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background: #1A76D1;
+            }
+            .appointment-list {
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.05);
+                overflow: hidden;
+            }
+            .appointment-list .table thead th {
+                background: #f5f5f5;
+                border: none;
+                padding: 15px;
+                font-weight: 600;
+            }
+            .appointment-list .table tbody td {
+                padding: 15px;
+                border-color: #f2f2f2;
+                vertical-align: middle;
+            }
+            .appointment-list .table tbody tr:hover {
+                background: #f9f9f9;
+            }
+            .status-badge {
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            .status-pending {
+                background: #FFF8E1;
+                color: #FFA000;
+            }
+            .status-confirmed {
+                background: #E8F5E9;
+                color: #4CAF50;
+            }
+            .status-cancelled {
+                background: #FFEBEE;
+                color: #F44336;
+            }
+            .welcome-banner {
+                background: linear-gradient(135deg, #1A76D1, #2196F3);
+                border-radius: 10px;
+                padding: 30px;
+                color: #fff;
+                margin-bottom: 30px;
+            }
+            .welcome-banner h2 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+            .welcome-banner p {
+                opacity: 0.9;
+                margin-bottom: 0;
+            }
+            .profile-summary {
+                display: flex;
+                align-items: center;
+            }
+            .profile-summary .avatar {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 15px;
+                border: 3px solid rgba(255,255,255,0.3);
+            }
+            .profile-summary .info h3 {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+            .profile-summary .info p {
+                margin: 0;
+                opacity: 0.9;
+            }
+            .btn-action {
+                background: #1A76D1;
+                color: #fff;
+                border-radius: 4px;
+                padding: 6px 12px;
+                font-size: 14px;
+                transition: all 0.3s ease;
+                border: none;
+            }
+            .btn-action:hover {
+                background: #0D47A1;
+                color: #fff;
+            }
+            .btn-view {
+                background: #4CAF50;
+            }
+            .btn-view:hover {
+                background: #388E3C;
+            }
+            .btn-update {
+                background: #FF9800;
+            }
+            .btn-update:hover {
+                background: #F57C00;
+            }
+            .header-inner {
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            .calendar-section {
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.05);
+                padding: 20px;
+            }
+            .calendar-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            .calendar-header h4 {
+                margin: 0;
+            }
+            .calendar-days {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+            .day-header {
+                text-align: center;
+                font-weight: 600;
+                color: #777;
+                font-size: 14px;
+                padding: 5px;
+            }
+            .calendar-cells {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+            }
+            .calendar-cell {
+                border: 1px solid #eee;
+                border-radius: 5px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                position: relative;
+                cursor: pointer;
+            }
+            .calendar-cell:hover {
+                background: #f5f5f5;
+            }
+            .calendar-cell.today {
+                background: #E3F2FD;
+                border-color: #BBDEFB;
+            }
+            .calendar-cell.has-events:after {
+                content: '';
+                position: absolute;
+                bottom: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #1A76D1;
+            }
+            .calendar-cell.selected {
+                background: #1A76D1;
+                color: #fff;
+                border-color: #1A76D1;
+            }
+        </style>
     </head>
     <body>
 	
 		<!-- Preloader -->
-        <div class="preloader">
+        <!-- <div class="preloader">
             <div class="loader">
                 <div class="loader-outter"></div>
                 <div class="loader-inner"></div>
@@ -59,12 +307,9 @@
                     </svg>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- End Preloader -->
 		
-		<!-- Get Pro Button -->
-		
-	
 		<!-- Header Area -->
 		<header class="header" >
 			<!-- Topbar -->
@@ -113,22 +358,19 @@
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li class="active"><a href="{%url 'Index' %}">Home </a></li>
+											<li class="active"><a href="{%url 'Index' %}">Dashboard</a></li>
 
-											<li ><a >Consoltaion Requests <i class="icofont-rounded-down"></i></a>
+											<li><a>Receiver Requests <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="{%url 'DoctorConsultaion' %}">Appointment Requests</a></li>
+													<li><a href="{%url 'Recever_requestsDoctor' %}">Receiver Request</a></li>
 												</ul>
 											</li>
-                                            <li ><a >Surgery <i class="icofont-rounded-down"></i></a>
+                                            <li><a>Surgeries <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="{%url 'DoctorSurgery' %}">Surgery</a></li>
+													<li><a href="{%url 'surgery_doctor' %}">Surgery Management</a></li>
 												</ul>
 											</li>
-											<li><a href="{%url 'DoctordonationView' %}">Organ Doners</a></li>
-											
-											
-											
+											<li><a href="{%url 'DoctordonationView' %}">Organ Donors</a></li>
 										</ul>
 									</nav>
 								</div>
@@ -137,7 +379,11 @@
 							{% if request.user.is_authenticated %}
 							<div class="col-lg-2 col-12">
 								<div class="get-quote">
-									<a href="{%url 'SignOut' %}" class="btn">{{request.user.first_name}}/Logout</a>
+									<a href="{%url 'SignOut' %}" class="btn">
+                                        <i class="fa fa-user-md"></i> 
+                                        {{request.user.first_name}}
+                                        <i class="fa fa-sign-out ml-2"></i>
+                                    </a>
 								</div>
 							</div>
 							{% else %}
@@ -154,16 +400,35 @@
 			<!--/ End Header Inner -->
 		</header>
 		<!-- End Header Area -->
+		
 		{% block content %}
-
-		
-		<h1>Doctor Home</h1>
-	
-		
-	{% endblock %}
+		<!-- Doctor Dashboard -->
+		<section class="doctor-dashboard section">
+			<div class="container">
+				<!-- Welcome Banner -->
+				<div class="welcome-banner">
+					<div class="row align-items-center">
+						<div class="col-lg-6">
+							<div class="profile-summary">
+								<img src="{%static 'img/doctor-placeholder.jpg' %}" alt="Doctor" class="avatar">
+								<div class="info">
+									<h3>Welcome, Dr. {{request.user.first_name}}</h3>
+									<p>{{request.user.email}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 text-lg-right">
+							<p>Today: {% now "l, F j, Y" %}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Doctor Dashboard -->
+		{% endblock %}
 		
 		<!-- Footer Area -->
-		<footer id="footer" class="footer ">
+		<footer id="footer" class="footer " style="position: fixed; bottom: 0;width: 100%;">
 			
 			<!-- Copyright -->
 			<div class="copyright">
@@ -171,7 +436,7 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-12">
 							<div class="copyright-content">
-								<p>© Copyright 2024  |  All Rights Reserved by <a href="" target="_blank">SharLife</a> </p>
+								<p>© Copyright 2024  |  All Rights Reserved by <a href="" target="_blank">ShareLife</a> </p>
 							</div>
 						</div>
 					</div>

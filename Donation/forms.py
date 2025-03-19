@@ -1,5 +1,5 @@
 from .models import Consutation, OrganDonation, Surgery, Organrequest
-from django.forms import ModelForm , Select, Textarea, TextInput
+from django.forms import ModelForm , Select, Textarea, TextInput, ClearableFileInput
 from datetime import date
 
 today = date.today()
@@ -35,17 +35,24 @@ class AddOrganDonation(ModelForm):
 class OrganDonationRequest(ModelForm):
     class Meta:
         model = Organrequest
-        fields = ["Organ"]
+        fields = ["organ","doctor","HealthRecord"]
+        widgets = {
+            "organ":Select(attrs={"class":"form-control"}),
+            "doctor":Select(attrs={"class":"form-control"}),
+            "patient":Select(attrs={"class":"form-control"}),
+            "HealthRecord":ClearableFileInput(attrs={"class":"form-control","type":"file"})
+        }
 
 class SurgeyAdd(ModelForm):
     class Meta:
         model = Surgery
-        fields = ["patient","surgery_date","admint_date","comments_doctor"]
+        fields = ["patient","surgery_date","donar","admint_date","comments_doctor"]
 
         widgets = {
             "surgery_date":TextInput(attrs={"class":"form-control","type":"date"}),
             "admint_date":TextInput(attrs={"class":"form-control","type":"date"}),
             "patient":Select(attrs={"class":"form-control"}),
+            'donar':Select(attrs={"class":"form-control"}),
             "comments_doctor":TextInput(attrs={"class":"form-control"}),            
             
         }

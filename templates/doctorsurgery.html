@@ -19,7 +19,7 @@
             <th>comments_doctor</th>
             <th>Status</th>
         </tr>
-        {% for i in surgey %}
+        {% for i in surgery %}
         <tr>
             <td>{{i.organrequest}}</td>
             <td>{{i.surgery_date}}</td>
@@ -28,7 +28,7 @@
             <td>
                 {% if i.surgery_status == False %}
                 <span  class="badge bg-warning">Pending</span>
-                <a href="" class="btn btn-info">Mark As Completed </a>
+                <a href="{% url  'surgery_status_change' i.id %}" class="btn btn-info">Mark As Completed </a>
                 {% else %}
                 <span class="badge bg-success">Completed</span>
                 {% endif %} 

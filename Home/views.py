@@ -22,6 +22,10 @@ def SignIn(request):
             return redirect('SignIn')
     return render(request,"login.html")
 
+
+
+
+
 @unautenticated_user
 def SignUp(request):
     form = UserAddForm()
@@ -36,12 +40,14 @@ def SignUp(request):
             userprofile = form1.save()
             userprofile.user = user
             userprofile.save()
+            user.is_active = False
+            user.save()
 
             # group = Group.objects.get(name='user')
             # user.groups.add(group) 
             # user.save()
 
-            messages.info(request,"User Created")
+            messages.info(request,"User Created Please Wait For Activation")
             return redirect('SignIn')
         else:
             messages.info(request,"Some thing wrong.....")
@@ -68,9 +74,38 @@ def DoctorSignUp(request):
             user.groups.add(group) 
             user.save()
             
-            messages.info(request,"User Created")
+            # messages.info(request,"User Created")
+            messages.info(request,"User Created Please Wait For Activation")
+
             return redirect('SignIn')
     return render(request,"doctorregister.html",{"form":form,"form1":form1})
+
+
+from .forms import ReceiverProfileForm
+
+
+@unautenticated_user
+def ReceiverSignUp(request):
+    form = UserAddForm()
+    form1 = ReceiverProfileForm()
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        form1 = ReceiverProfileForm(request.POST,request.FILES)
+
+        if form.is_valid() and form1.is_valid():
+            user = form.save()
+            user.save()
+            userprofile = form1.save()
+            userprofile.user = user
+            userprofile.save()
+
+            group = Group.objects.get(name='receiver')
+            user.groups.add(group) 
+            user.save()
+            
+            messages.info(request,"User Created")
+            return redirect('SignIn')
+    return render(request,"register_receiver.html",{"form":form,"form1":form1})
 
 
 @unautenticated_user
@@ -92,7 +127,9 @@ def HospitalSignUp(request):
             user.groups.add(group) 
             user.save()
             
-            messages.info(request,"User Created")
+            # messages.info(request,"User Created")
+            messages.info(request,"User Created Please Wait For Activation")
+
             return redirect('SignIn')
     return render(request,"hospitalregister.html",{"form":form,"form1":form1})
 
@@ -101,6 +138,28 @@ def HospitalSignUp(request):
 def SignOut(request):
     logout(request)
     return redirect('SignIn')
+
+def DonarApprove(request, pk):
+    try:
+        donar = User.objects.get(id=pk)
+        donar.is_active = True
+        donar.save()
+        messages.info(request, "Donor Approved Successfully")
+    except User.DoesNotExist:
+        messages.error(request, "Donor not found")
+    return redirect("DoctordonationView")
+
+
+def DonarReject(request, pk):
+    try:
+        donar = User.objects.get(id=pk)
+        donar.is_active = False
+        donar.save()
+        messages.info(request, "Donor Rejected Successfully")
+    except UserProfile.DoesNotExist:
+        messages.error(request, "Donor not found")
+    return redirect("DoctordonationView")
+
 
 def ApproveDoctor(request,pk):
     doctor = DoctorProfile.objects.get(id = pk)
@@ -157,5 +216,10 @@ def AdminIndex(request):
         "user":user
     }
     return render(request, 'adminindex.html',context)
+
+
+def ReceiverIndex(request):
+    
+    return render(request, "receiverindex.html")
 
 
