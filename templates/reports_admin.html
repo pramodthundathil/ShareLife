@@ -1,0 +1,37 @@
+{% extends 'adminindex.html' %}
+{% block content %}
+<style>
+    a{
+        margin-left: 20px;
+    }
+</style>
+<div class="dashboard container">
+    <h2>Admin Dashboard Reports </h2>
+    {% for m in messages %}
+    <h5 class="text-info">{{m}}</h5>
+    {% endfor %}
+    <div class="contanier mt-5 mb-5">
+        <div class="  mt-5">
+
+      
+
+            <a href="{%url 'blood_inventory_report' %}" class="btn btn-dark btn-sm">Vault Report</a>
+            <a href="{%url 'blood_requests_report' %}" class="btn btn-dark btn-sm">Blood Requests</a>
+            <a href="{%url 'blood_donations_report' %}" class="btn btn-dark btn-sm">Blood Donor</a>
+            <a href="{%url 'comprehensive_blood_report' %}" class="btn btn-dark btn-sm">Comprehensive Blood Report</a>
+        </div>
+
+        <div class=" mt-5">
+            
+
+            <a href="{%url 'organ_donations_report' %}" class="btn btn-dark btn-sm">Organ Donation Report</a>
+            <a href="{%url 'organ_requests_report' %}" class="btn btn-dark btn-sm">Organ Requests</a>
+            <a href="{%url 'surgeries_report' %}" class="btn btn-dark btn-sm">Surgeries</a>
+            <a href="{%url 'comprehensive_organ_report' %}" class="btn btn-dark btn-sm">Comprehensive Organ Report</a>
+        </div>
+
+
+    </div>
+
+
+    {% endblock %}
