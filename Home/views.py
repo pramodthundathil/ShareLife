@@ -4,8 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from .decorators import admin_only, unautenticated_user, DoctorActiveCheck, HospitalActiveCheck
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
-from .models import DoctorProfile, HospitalProfile, UserProfile
+from .models import DoctorProfile, HospitalProfile, UserProfile, Block_1, Block_2, Block_3, Block_4
 
+from .blockgenerator import Block
 # Create your views here.
 
 @unautenticated_user
@@ -21,8 +22,6 @@ def SignIn(request):
             messages.info(request,"Username or Password Incorrect or You Are Not Activated")
             return redirect('SignIn')
     return render(request,"login.html")
-
-
 
 
 
@@ -79,6 +78,32 @@ def DoctorSignUp(request):
 
             return redirect('SignIn')
     return render(request,"doctorregister.html",{"form":form,"form1":form1})
+
+
+def ValidateBlock(request,pk):
+    medicine = UserProfile.objects.get(id = pk)
+    block4 = Block_4.objects.get(MedicineBlock = medicine)
+    block3 = Block_3.objects.get(MedicineBlock = medicine)
+    block2 = Block_2.objects.get(MedicineBlock = medicine)
+    block1 = block2.BlockLink
+   
+    BlockChanin2 = Block(3,medicine,block2.Blockhash)
+    
+    blockdata = [block1,block2,block3]
+    blockhashvalue = Block(4,"time",blockdata,block3.Blockhash)
+    print(blockhashvalue)
+    
+    if BlockChanin2.hash == block3.Blockhash:
+        if blockhashvalue.hash == block4.Blockhash:
+            messages.success(request,"This Donar is Valid")
+            return redirect("ViewMed",pk=pk)            
+        else:
+            messages.info(request,"This Donar is InValid")
+            return redirect("ViewMed",pk=pk)
+    else:
+        messages.info(request,"This Donar is InValid")
+        return redirect("ViewMed",pk=pk)
+
 
 
 from .forms import ReceiverProfileForm
